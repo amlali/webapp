@@ -2,8 +2,8 @@ var jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 mongoose.Promise=global.Promise;
 mongoose.connect('mongodb://localhost:27017/todo');
-
-//var {mongoose}=require('./db');
+var moment=require('moment')
+var date=require('./date');
 var validator = require('validator');
 var bcrypt = require('bcryptjs');
 
@@ -27,33 +27,23 @@ var User=new Schema(
        type:String
     },
 
-    token:{
-        type: String
-    }
-
+    
 
 });
 
 
-//User.methods.genHash = function(cb){
-  //  var user=this;
-    // bcrypt.genSalt(10,cb);
-//}
 
-//User.methods.validatePassword = function( newPasswor){
-  //  if(this.password)
-    //retun true
-
-//}
 User.methods.generatetoken=function(){
     var user=this;
     var access={
         username:user.username,
-        id:user.password,
-        expireDate:5
+        issueDate:date.getDate(),
+        expireDate:moment(date.getDate(),'DD-MM-YYYY').add(5, 'days').format('DD-MM-YYYY'),
+        randnumber:12345
     };
+
 var token=jwt.sign(access,'amal1234');
-user.token=token;
+
 return token;
 }
 
@@ -62,12 +52,22 @@ User.methods.getbytoken=function(token){
     var decoded;
     try{
         decoded = jwt.verify(token,'amal1234');
-        return user.findOne({
-            username:decoded.username,
-            password:decoded.password});
+        console.log(moment(decoded.expireDate,'DD-MM-YYYY'));
+        if(decoded.expireDate<date.getDate())
+        {
+            console.log('data true ');
+            
+       return true;
+    }
+    else {
+        return false;
+    }
+        //return user.findOne({username:decoded.username});
     }
     catch(e){
-        new Promise.reject();
+        console.log('not token');
+
+       return  false
     }
     
     
@@ -81,17 +81,18 @@ User.methods.addNewUser = function (userObj)
     this.username = userObj.username;
     this.email = userObj.email;
     this.age = userObj.age;
-    let user = this;
-    genHash((err,salt)=>{
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            user.password=hash;
-            user.save(); 
-        });
-    })
-   
+    console.log('before hashing');
+    this.password=hashing(userObj.password);
 
 }
 
 
+var hashing=function(password){
+    var salt=bcrypt.genSaltSync(10);
+    var hashpass=bcrypt.hashSync(password,salt);
+    console.log(hashpass)
+    return hashpass;
+
+}
 
 module.exports= mongoose.model('User', User)

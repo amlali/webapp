@@ -1,0 +1,26 @@
+in post request
+{
+    username{length: 5-20 
+    characters and numbers 
+    type:string
+    required:true
+    }
+     email:{
+        type:String,
+        required:true,
+       
+    },
+    age:{
+        type:Number,
+        10-150
+    },
+    password:{
+       type:String
+       has uppercase,lowercaser,numbers,no space,
+       length: 8-50
+
+
+    },
+    
+
+}
