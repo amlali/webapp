@@ -19,10 +19,10 @@ var date=require('./date');
 //var new_date = moment().add(5, 'days').toString();
 //console.log(current_date);
 
-console.log(validator.isNumeric(12));
+//console.log(validator.isNumeric(12));
 
 
-console.log(date.getDate());
-var new_date = moment(date.getDate(),'DD-MM-YYYY').add(5, 'days').format('DD-MM-YYYY');
-
-console.log(new_date);
+//console.log(date.getDate());
+//var new_date = moment(date.getDate(),'DD-MM-YYYY').add(5, 'days').format('DD-MM-YYYY');
+var x='12345'
+console.log(x.length);

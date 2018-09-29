@@ -1,5 +1,6 @@
 const {ObjectID}=require('mongodb');
 var User =require('./users');
+var Validation=require('./validation');
 var express = require('express')
 var validator = require('validator');
 var bodyParser = require('body-parser');
@@ -13,12 +14,11 @@ var port=process.env.PORT||3000;
 var schema = new passwordValidator();
 schema
 .is().min(8)                                    
-.is().max(100)                                 
+.is().max(50)                                 
 .has().uppercase()                              
 .has().lowercase()                             
 .has().digits()                                 
 .has().not().spaces(); 
-
 
 
 var user = new User();
@@ -27,9 +27,15 @@ console.log('inside user posting route ');
 
 var name=req.body.username;
 var email=req.body.email;
-var age=req.body.age;
+//var age=Number(req.body.age);
 var password=req.body.password;
-  if(validator.isAlphanumeric(name)&&name.length<20&&validator.isNumeric(age)&&age<150,schema.validate(password)&&validator.isEmail(email)){
+console.log(Validation.validateUserName(req.body.username));
+console.log(Validation.validateAge(req.body.age));
+console.log(Validation.validatePassword(req.body.password));
+
+  if(Validation.validateUserName(req.body.username)===true&&Validation.validateAge(req.body.age)&&Validation.validatePassword(req.body.password)&&validator.isEmail(email)){
+    console.log('should return valid');
+    
     user.addNewUser({
         username:req.body.username,
         email:req.body.email,
@@ -45,7 +51,7 @@ var password=req.body.password;
     });
 }
 else{
-res.status(404).send('change your data please');}
+res.status(400).send('change your data please');}
 });
 
 
@@ -71,19 +77,12 @@ app.get('/access',(req,res)=>{
     if(!token){
     res.status(401).send();
 }
-    //user.getbytoken(token).then((res)=>{
-       
-    //    res.status(200).send(res);
-   // }).catch((e)=>{
-   //     res.status(401).send();
-
-  //  });
  var valid= user.getbytoken(token);
  if(valid){
     res.status(200).send();
 }
 else{
-    res.status(401).send();
+    res.status(400).send();
 }
 });
 
