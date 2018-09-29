@@ -15,7 +15,7 @@ return true;
 }
 var validateAge=function (age) {
 
-if(age>10&&age<150)
+if(age!=='NaN',age>10&&age<150)
 {
     return true;
 }

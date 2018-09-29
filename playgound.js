@@ -24,5 +24,5 @@ var date=require('./date');
 
 //console.log(date.getDate());
 //var new_date = moment(date.getDate(),'DD-MM-YYYY').add(5, 'days').format('DD-MM-YYYY');
-var x='12345'
-console.log(x.length);
+var x='ssss'
+console.log( parseInt(x));

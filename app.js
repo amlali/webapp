@@ -25,15 +25,15 @@ var user = new User();
 app.post('/user',(req,res)=>{
 console.log('inside user posting route ');
 
-var name=req.body.username;
-var email=req.body.email;
-//var age=Number(req.body.age);
-var password=req.body.password;
+//var name=req.body.username;
+//var email=req.body.email;
+var age=parseInt(req.body.age);
+//var password=req.body.password;
 console.log(Validation.validateUserName(req.body.username));
 console.log(Validation.validateAge(req.body.age));
 console.log(Validation.validatePassword(req.body.password));
 
-  if(Validation.validateUserName(req.body.username)===true&&Validation.validateAge(req.body.age)&&Validation.validatePassword(req.body.password)&&validator.isEmail(email)){
+  if(Validation.validateUserName(req.body.username)===true&&Validation.validateAge(age)&&Validation.validatePassword(req.body.password)&&validator.isEmail(email)){
     console.log('should return valid');
     
     user.addNewUser({
