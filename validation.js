@@ -4,7 +4,7 @@ var validateUserName=function (userName) {
     userName=userName.trim();
     console.log(userName);
     
-    if(userName.length>5&&userName.length<20&&validator.isAlphanumeric(userName)){
+    if(userName.length>5&&userName.length<20&&typeof userName=='string'){
         console.log('should return true');
 return true;
     }
