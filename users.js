@@ -2,10 +2,8 @@ var jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 mongoose.Promise=global.Promise;
 
-var options={
-useNewUrlPerson
-};
-mongoose.connect('mongodb://localhost:27017/todo',options);
+
+mongoose.connect('mongodb://localhost:27017/todo', { useNewUrlParser: true });
 var moment=require('moment')
 var date=require('./date');
 var validator = require('validator');

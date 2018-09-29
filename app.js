@@ -26,7 +26,7 @@ app.post('/user',(req,res)=>{
 console.log('inside user posting route ');
 
 //var name=req.body.username;
-//var email=req.body.email;
+var email=req.body.email;
 var age=parseInt(req.body.age);
 //var password=req.body.password;
 console.log(Validation.validateUserName(req.body.username));
